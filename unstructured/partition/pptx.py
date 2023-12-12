@@ -2,6 +2,9 @@
 
 PPTX files are PowerPoint 2007+ documents. These are XML-based and "open" (documented ISO standard),
 unlike the `.ppt` format which was binary and proprietary.
+
+File modified by Anupam Kumar <kyteinsky@gmail.com>
+Original file can be found at https://github.com/Unstructured-IO/unstructured
 """
 
 from __future__ import annotations
@@ -24,24 +27,11 @@ from pptx.text.text import _Paragraph  # pyright: ignore [reportPrivateUsage]
 
 from unstructured.chunking import add_chunking_strategy
 from unstructured.common.html_table import HtmlTable, htmlify_matrix_of_cell_texts
-from unstructured.documents.elements import (
-    Element,
-    ElementMetadata,
-    EmailAddress,
-    ListItem,
-    NarrativeText,
-    PageBreak,
-    Table,
-    Text,
-    Title,
-)
+from unstructured.documents.elements import (Element, ElementMetadata, EmailAddress, ListItem, NarrativeText,
+                                             PageBreak, Table, Text, Title)
 from unstructured.file_utils.model import FileType
 from unstructured.partition.common.metadata import apply_metadata, get_last_modified_date
-from unstructured.partition.text_type import (
-    is_email_address,
-    is_possible_narrative_text,
-    is_possible_title,
-)
+from unstructured.partition.text_type import is_email_address
 from unstructured.partition.utils.constants import PartitionStrategy
 from unstructured.telemetry import partition_runtime_telemetry
 from unstructured.utils import is_temp_file_path
@@ -233,16 +223,6 @@ class _PptxPartitioner:
                 yield ListItem(text=text, metadata=metadata, detection_origin=DETECTION_ORIGIN)
             elif is_email_address(text):
                 yield EmailAddress(text=text, metadata=metadata, detection_origin=DETECTION_ORIGIN)
-            elif is_possible_narrative_text(text):
-                yield NarrativeText(
-                    text=text,
-                    metadata=metadata,
-                    detection_origin=DETECTION_ORIGIN,
-                )
-            elif is_possible_title(text):
-                # If text is a title but not the title shape increment the category depth)
-                metadata = self._opts.text_metadata(category_depth=level + 1)
-                yield Title(text=text, metadata=metadata, detection_origin=DETECTION_ORIGIN)
             else:
                 yield Text(text=text, metadata=metadata, detection_origin=DETECTION_ORIGIN)
 

@@ -1,5 +1,8 @@
 # pyright: reportPrivateUsage=false
 
+# File modified by Anupam Kumar <kyteinsky@gmail.com>
+# Original file can be found at https://github.com/Unstructured-IO/unstructured
+
 from __future__ import annotations
 
 import io
@@ -44,7 +47,6 @@ from unstructured.documents.elements import (
     Image,
     Link,
     ListItem,
-    NarrativeText,
     PageBreak,
     Table,
     Text,
@@ -55,7 +57,6 @@ from unstructured.partition.common.metadata import apply_metadata, get_last_modi
 from unstructured.partition.text_type import (
     is_bulleted_text,
     is_email_address,
-    is_possible_narrative_text,
     is_us_city_state_zip,
 )
 from unstructured.partition.utils.config import env_config
@@ -1072,8 +1073,6 @@ class _DocxPartitioner:
             return Address
         if is_email_address(text):
             return EmailAddress
-        if is_possible_narrative_text(text):
-            return NarrativeText
 
         return None
 
