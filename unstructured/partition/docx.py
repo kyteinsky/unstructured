@@ -1,5 +1,8 @@
 # pyright: reportPrivateUsage=false
 
+# File modified by Anupam Kumar <kyteinsky@gmail.com>
+# Original file can be found at https://github.com/Unstructured-IO/unstructured
+
 from __future__ import annotations
 
 import io
@@ -26,30 +29,11 @@ from typing_extensions import TypeAlias
 from unstructured.chunking import add_chunking_strategy
 from unstructured.cleaners.core import clean_bullets
 from unstructured.common.html_table import htmlify_matrix_of_cell_texts
-from unstructured.documents.elements import (
-    Address,
-    Element,
-    ElementMetadata,
-    EmailAddress,
-    Footer,
-    Header,
-    Image,
-    Link,
-    ListItem,
-    NarrativeText,
-    PageBreak,
-    Table,
-    Text,
-    Title,
-)
+from unstructured.documents.elements import (Address, Element, ElementMetadata, EmailAddress, Footer, Header, Image,
+                                             Link, ListItem, PageBreak, Table, Text, Title)
 from unstructured.file_utils.model import FileType
 from unstructured.partition.common.metadata import apply_metadata, get_last_modified_date
-from unstructured.partition.text_type import (
-    is_bulleted_text,
-    is_email_address,
-    is_possible_narrative_text,
-    is_us_city_state_zip,
-)
+from unstructured.partition.text_type import is_bulleted_text, is_email_address, is_us_city_state_zip
 from unstructured.partition.utils.constants import PartitionStrategy
 from unstructured.utils import is_temp_file_path, lazyproperty
 
@@ -898,8 +882,6 @@ class _DocxPartitioner:
             return Address
         if is_email_address(text):
             return EmailAddress
-        if is_possible_narrative_text(text):
-            return NarrativeText
 
         return None
 

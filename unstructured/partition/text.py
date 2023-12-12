@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+# File modified by Anupam Kumar <kyteinsky@gmail.com>
+# Original file can be found at https://github.com/Unstructured-IO/unstructured
 import copy
 import re
 from typing import IO, Any, Callable, Literal
@@ -18,9 +20,7 @@ from unstructured.documents.elements import (
     Footer,
     Header,
     ListItem,
-    NarrativeText,
     Text,
-    Title,
 )
 from unstructured.file_utils.encoding import read_txt_file
 from unstructured.file_utils.model import FileType
@@ -30,9 +30,7 @@ from unstructured.partition.common.metadata import apply_metadata, get_last_modi
 from unstructured.partition.text_type import (
     is_bulleted_text,
     is_email_address,
-    is_possible_narrative_text,
     is_possible_numbered_list,
-    is_possible_title,
     is_us_city_state_zip,
 )
 
@@ -142,18 +140,6 @@ def element_from_text(
         )
     elif is_possible_numbered_list(text):
         return ListItem(
-            text=text,
-            coordinates=coordinates,
-            coordinate_system=coordinate_system,
-        )
-    elif is_possible_narrative_text(text):
-        return NarrativeText(
-            text=text,
-            coordinates=coordinates,
-            coordinate_system=coordinate_system,
-        )
-    elif is_possible_title(text):
-        return Title(
             text=text,
             coordinates=coordinates,
             coordinate_system=coordinate_system,

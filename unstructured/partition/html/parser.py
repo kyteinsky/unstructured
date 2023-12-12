@@ -1,5 +1,8 @@
 # pyright: reportPrivateUsage=false
 
+# File modified by Anupam Kumar <kyteinsky@gmail.com>
+# Original file can be found at https://github.com/Unstructured-IO/unstructured
+
 """Provides the HTML parser used by `partition_html()`.
 
 The names "flow" and "phrasing" derive from the language of the HTML Standard.
@@ -90,7 +93,6 @@ from unstructured.documents.elements import (
     ElementMetadata,
     EmailAddress,
     ListItem,
-    NarrativeText,
     Table,
     Text,
     Title,
@@ -98,7 +100,6 @@ from unstructured.documents.elements import (
 from unstructured.partition.text_type import (
     is_bulleted_text,
     is_email_address,
-    is_possible_narrative_text,
     is_us_city_state_zip,
 )
 from unstructured.utils import lazyproperty
@@ -880,9 +881,6 @@ def derive_element_type_from_text(text: str) -> type[Text] | None:
 
     if len(text) < 2:
         return None
-
-    if is_possible_narrative_text(text):
-        return NarrativeText
 
     return Text
 

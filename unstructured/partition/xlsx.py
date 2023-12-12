@@ -1,3 +1,6 @@
+# File modified by Anupam Kumar <kyteinsky@gmail.com>
+# Original file can be found at https://github.com/Unstructured-IO/unstructured
+
 """Partitioner for Excel 2007+ (XLSX) spreadsheets."""
 
 from __future__ import annotations
@@ -18,18 +21,14 @@ from unstructured.documents.elements import (
     Element,
     ElementMetadata,
     ListItem,
-    NarrativeText,
     Table,
     Text,
-    Title,
 )
 from unstructured.file_utils.model import FileType
 from unstructured.partition.common.metadata import apply_metadata, get_last_modified_date
 from unstructured.partition.text_type import (
     is_bulleted_text,
-    is_possible_narrative_text,
     is_possible_numbered_list,
-    is_possible_title,
 )
 from unstructured.utils import lazyproperty
 
@@ -430,10 +429,6 @@ def _create_element(text: str) -> Element:
         return ListItem(text=clean_bullets(text))
     elif is_possible_numbered_list(text):
         return ListItem(text=text)
-    elif is_possible_narrative_text(text):
-        return NarrativeText(text=text)
-    elif is_possible_title(text):
-        return Title(text=text)
     else:
         return Text(text=text)
 
