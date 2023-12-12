@@ -1,3 +1,6 @@
+# File modified by Anupam Kumar <kyteinsky@gmail.com>
+# Original file can be found at https://github.com/Unstructured-IO/unstructured
+
 from __future__ import annotations
 
 import io
@@ -37,8 +40,6 @@ from unstructured.partition.common import (
 from unstructured.partition.lang import apply_lang_metadata
 from unstructured.partition.text_type import (
     is_email_address,
-    is_possible_narrative_text,
-    is_possible_title,
 )
 from unstructured.utils import lazyproperty
 
@@ -308,16 +309,6 @@ class _PptxPartitioner:  # pyright: ignore[reportUnusedClass]
                 yield ListItem(text=text, metadata=metadata, detection_origin=DETECTION_ORIGIN)
             elif is_email_address(text):
                 yield EmailAddress(text=text, detection_origin=DETECTION_ORIGIN)
-            elif is_possible_narrative_text(text):
-                yield NarrativeText(
-                    text=text,
-                    metadata=metadata,
-                    detection_origin=DETECTION_ORIGIN,
-                )
-            elif is_possible_title(text):
-                # If text is a title but not the title shape increment the category depth)
-                metadata = self._text_metadata(category_depth=level + 1)
-                yield Title(text=text, metadata=metadata, detection_origin=DETECTION_ORIGIN)
             else:
                 yield Text(text=text, metadata=metadata, detection_origin=DETECTION_ORIGIN)
 

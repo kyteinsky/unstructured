@@ -1,5 +1,8 @@
 # pyright: reportPrivateUsage=false
 
+# File modified by Anupam Kumar <kyteinsky@gmail.com>
+# Original file can be found at https://github.com/Unstructured-IO/unstructured
+
 from __future__ import annotations
 
 import sys
@@ -31,8 +34,6 @@ from unstructured.logger import logger
 from unstructured.partition.text_type import (
     is_bulleted_text,
     is_email_address,
-    is_possible_narrative_text,
-    is_possible_title,
     is_us_city_state_zip,
 )
 from unstructured.utils import htmlify_matrix_of_cell_texts
@@ -468,15 +469,7 @@ def _text_to_element(
 
     if len(text) < 2:
         return None
-    elif is_narrative_tag(text, tag):
-        return HTMLNarrativeText(
-            text,
-            tag=tag,
-            ancestortags=ancestortags,
-            links=links,
-            emphasized_texts=emphasized_texts,
-        )
-    elif is_heading_tag(tag) or is_possible_title(text):
+    elif is_heading_tag(tag):
         return HTMLTitle(
             text,
             tag=tag,
@@ -512,11 +505,6 @@ def _is_container_with_text(tag_elem: etree._Element) -> bool:
         return False
 
     return True
-
-
-def is_narrative_tag(text: str, tag: str) -> bool:
-    """Uses tag information to infer whether text is narrative."""
-    return tag not in HEADING_TAGS and is_possible_narrative_text(text)
 
 
 def is_heading_tag(tag: str) -> bool:
